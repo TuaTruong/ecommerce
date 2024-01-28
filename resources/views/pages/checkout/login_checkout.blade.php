@@ -25,10 +25,10 @@
                         <h2>Đăng ký</h2>
                         <form action="/register-user" method="POST">
                             @csrf
-                            <input type="text" name="name" placeholder="Họ tên" />
-                            <input type="email" name="email" placeholder="Địa chỉ email" />
-                            <input type="password" name="password" placeholder="Mật khẩu" />
-                            <input type="text" name="phone" placeholder="Số điện thoại" />
+                            <input type="text" name="name" placeholder="Họ tên" value="{{old('name')}}"/>
+                            <input type="email" name="email" placeholder="Địa chỉ email" value="{{old('email')}}"/>
+                            <input type="password" name="password" placeholder="Mật khẩu" value="{{old('password')}}"/>
+                            <input type="text" name="phone" placeholder="Số điện thoại" value="{{old('phone')}}"/>
                             <button type="submit" class="btn btn-default">Đăng ký</button>
                         </form>
                     </div><!--/sign up form-->

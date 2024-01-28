@@ -7,26 +7,57 @@
                     <li class="active">Thanh toán giỏ hàng</li>
                 </ol>
             </div><!--/breadcrums-->
-
-            <div class="register-req">
-                <p>Làm ơn đăng ký hoặc đăng nhập để thanh toán giỏ hàng và xem lại lịch sử mua hàng</p>
-            </div><!--/register-req-->
-
+            <p>{{session("fee")}}
+            </p>
             <div class="shopper-informations">
                 <div class="row">
                     <div class="col-sm-12 clearfix">
                         <div class="bill-to">
                             <p>Điền thông tin gửi hàng</p>
                             <div class="form-one">
-                                <form action="/save-checkout" method="POST">
+                                <form method="POST">
                                     @csrf
-                                    <input type="text" placeholder="Email" name="email">
-                                    <input type="text" placeholder="Họ và tên" name="name">
-                                    <input type="text" placeholder="Địa chỉ" name="address">
-                                    <input type="text" placeholder="Phone" name="phone">
-                                    <textarea name="note" placeholder="Ghi chú đơn hàng của bạn" rows="10"></textarea>
-                                    <input type="submit" value="Xác nhận đơn hàng" name="send_order"
-                                        class="btn btn-primary btn-sm">
+                                    @isset($shipping)
+                                        <input type="text" placeholder="Email" name="email" class="shipping_email"
+                                        value="{{$shipping->email}}">
+                                        <input type="text" placeholder="Họ và tên" name="name" class="shipping_name" value="{{$shipping->name}}">
+                                        <input type="text" placeholder="Địa chỉ" name="address" class="shipping_address" value="{{$shipping->address}}">
+                                        <input type="text" placeholder="Phone" name="phone" class="shipping_phone" value="{{$shipping->phone}}">
+                                        <textarea name="note" placeholder="Ghi chú đơn hàng của bạn" rows="10" class="shipping_notes"></textarea>
+                                    @else
+                                        <input type="text" placeholder="Email" name="email" class="shipping_email"
+                                        value="">
+                                        <input type="text" placeholder="Họ và tên" name="name" class="shipping_name" value="">
+                                        <input type="text" placeholder="Địa chỉ" name="address" class="shipping_address" value="">
+                                        <input type="text" placeholder="Phone" name="phone" class="shipping_phone" value="">
+                                        <textarea name="note" placeholder="Ghi chú đơn hàng của bạn" rows="10" class="shipping_notes"></textarea>
+                                    @endisset
+                                    @if (session('fee'))
+                                        <input type="hidden" name="shipping_fee" class="shipping_fee"
+                                            value="{{ session('fee') }}">
+                                    @else
+                                        <input type="hidden" name="shipping_fee" class="shipping_fee" value="40000">
+                                    @endif
+
+                                    @if (session('coupon'))
+                                        <input type="hidden" name="order_coupon" class="order_coupon"
+                                            value="{{ session('coupon')[0]['code'] }}">
+                                    @else
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="no">
+                                    @endif
+
+                                    <div class="">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Chọn hình thức thanh toán</label>
+                                            <select name="payment_select" id=""
+                                                class="form-control input-sm m-bot1 payment_select">
+                                                <option value="0">Qua chuyển khoản</option>
+                                                <option value="1">Tiền mặt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                                 </form>
                                 <form role="form" action="/save-category" method="POST">
                                     @csrf
@@ -58,11 +89,13 @@
                                         </select>
                                     </div>
 
-                                    <input type="button" value="Tính phí vận chuyển" name="calculate_order"
-                                        class="btn btn-primary btn-sm calculate_delivery">
+                                    <input type="button" value="Tính phí vận chuyển" name="calculate_order "
+                                        class="btn btn-primary btn-sm calculate_delivery check_out"
+                                        style="margin-left:0px">
+                                    <input type="button" value="Xác nhận đơn hàng" name="send_order"
+                                        class="btn btn-primary btn-sm send_order check_out" style="margin-left:0px">
                                 </form>
 
-                                {{ session('fee') }}
                             </div>
                         </div>
                     </div>
@@ -162,26 +195,37 @@
                                                         </li>
                                                     @endif
 
-
-                                                    @if (session('fee'))
-                                                        @php
-                                                            $feeship = session('fee');
-                                                        @endphp
-                                                        <li> <a class="cart_quantity_delete" href="/delete-fee"><i
-                                                                    class="fa fa-times"></i></a>Phí vận chuyển:
-                                                            {{ number_format(session('fee'), 0, ',', '.') }} VND</li>
-                                                    @else
-                                                        @php
-                                                            $feeship = 0;
-                                                        @endphp
-                                                    @endif
                                                     @php
-                                                        $total+=$feeship
+                                                        if (session('fee')) {
+                                                            $feeship = session('fee');
+                                                        }else {
+                                                            $feeship = 0;
+                                                        }
+                                                    @endphp
+
+                                                    <li class="feeship_container">
+                                                        @if (session('fee'))
+                                                            <a class="feeship_delete" href="/delete-fee">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+
+                                                            Phí vận chuyển:
+                                                            <span>
+                                                                {{ number_format(session('fee'), 0, ',', '.') }} VND
+                                                            </span>
+                                                        @else
+                                                            Phí vận chuyển:
+                                                            <span></span>
+                                                        @endif
+                                                    </li>
+
+                                                    @php
+                                                        $total += $feeship;
                                                     @endphp
                                                     <li>Thành tiền <span>{{ number_format($total, 0, ',', '.') }}
-                                                        VND</span></li>
+                                                            VND</span></li>
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     @auth
                                                         <a class="btn btn-default check_out" href="/checkout">Thanh
                                                             toán</a>
@@ -190,7 +234,7 @@
                                                             nhập để thanh
                                                             toán</a>
                                                     @endauth
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @else
                                             <tr class="d-flex">
@@ -219,7 +263,11 @@
                                     </td>
                                 </tr>
                             @endif
+
                         </div>
+
+                        {{-- <input type="button" value="Xác nhận đơn hàng" name="send_order" class="send_order"
+                        class="btn btn-primary btn-sm"> --}}
                     </div>
                 </div>
             </div>

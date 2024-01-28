@@ -17,7 +17,7 @@ class Order extends Model
         return $this->belongsTo(Shipping::class);
     }
 
-    public function order_details(){
-        return $this->belongsTo(OrderDetails::class,"id");
-    }
+    // public function order_details(){
+    //     return $this->ha(OrderDetails::class,"id");
+    // }
 }

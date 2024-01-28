@@ -87,9 +87,9 @@ class CartController extends Controller
                 }
             }
             session()->put("cart",$cart);
-            return redirect("/gio-hang")->with("message","Xóa sản phẩm thành công ");
+            return redirect()->back()->with("message","Xóa sản phẩm thành công")->withInput();
         }
-        return redirect("/gio-hang")->with("message","Xóa sản phẩm thất bại");
+        return redirect()->back()->with("message","Xóa sản phẩm thất bại")->withInput();
     }
 
 
@@ -106,9 +106,9 @@ class CartController extends Controller
                 }
             }
             session()->put("cart",$cart);
-            return redirect("/gio-hang")->with("message","Cập nhật sản phẩm thành công ");
+            return redirect()->back()->withInput()->with("message","Cập nhật sản phẩm thành công ");
         }
-        return redirect("/gio-hang")->with("message","Cập nhật sản phẩm thất bại");
+        return redirect()->back()->withInput()->with("message","Cập nhật sản phẩm thất bại");
     }
 
     public function delete_all_cart_product(){
@@ -116,9 +116,9 @@ class CartController extends Controller
         if ($cart){
             session()->forget("cart");
             session()->forget("coupon");
-            return redirect("/gio-hang")->with("message","Đã xóa toàn bộ sản phẩm trong giỏ hàng");
+            return redirect()->back()->with("message","Đã xóa toàn bộ sản phẩm trong giỏ hàng")->withInput();
         }
-        return redirect("/gio-hang")->with("message","Xóa toàn bộ sản phẩm trong giỏ hàng thất bại");
+        return redirect()->back()->with("message","Xóa toàn bộ sản phẩm trong giỏ hàng thất bại")->withInput();
     }
 
 

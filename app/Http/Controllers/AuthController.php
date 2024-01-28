@@ -21,7 +21,8 @@ class AuthController extends Controller
         $user = User::create($attributes);
         auth()->login($user);
 
-        return redirect("/checkout");
+        // return redirect("/checkout");
+        return redirect()->back()->withInput();
     }
 
     public function logout_user(){

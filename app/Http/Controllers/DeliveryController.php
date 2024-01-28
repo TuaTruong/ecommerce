@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\FeeShip;
 use App\Models\Province;
+use App\Models\Shipping;
 use App\Models\Ward;
 use Illuminate\Http\Request;
 
@@ -87,18 +88,40 @@ class DeliveryController extends Controller
         ]);
     }
 
-
     public function calculate_fee(){
         request()->validate([
             "matp" => "required",
             "maqh" => "required",
             "xaid" => "required"
         ]);
+        $shipping = Shipping::where("user_id",auth()->user()->id)->first();
+        if($shipping){
+            $shipping->update([
+                "name" => request("shipping_name"),
+                "email" => request("shipping_email"),
+                "address" => request("shipping_address"),
+                "phone" => request("shipping_phone"),
+                "method" => request("shipping_method")
+            ]);
+        } else{
+            Shipping::create([
+                "user_id" => auth()->user()->id,
+                "name" => request("shipping_name"),
+                "email" => request("shipping_email"),
+                "address" => request("shipping_address"),
+                "phone" => request("shipping_phone"),
+                "method" => request("shipping_method")
+            ]);
+        }
 
         $feeship = FeeShip::where("matp",request("matp"))->where("maqh",request("maqh"))->where("xaid",request("xaid"))->get();
-        session()->put(["fee" => $feeship[0]->feeship]);
+        $fee = 40000;
+        if ($feeship->count()>0){
+            $fee = $feeship[0]->feeship;
+        }
+        session()->put(["fee" => $fee]);
+        return '<a class="feeship_delete" href="/delete-fee"><i class="fa fa-times"></i></a>Phí vận chuyển:'. number_format($fee, 0, ',', '.'). 'VND</li>';
     }
-
 
     public function delete_fee(){
         session()->forget("fee");

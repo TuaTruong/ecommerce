@@ -24,7 +24,7 @@
                         <tbody>
                             <p class="text-alert" style="color: red">{{ session('message') }}</p>
                             @php
-                                print_r(session('cart'));
+                                // print_r(session('cart'));
                                 $total = 0;
                             @endphp
                             @if (session('cart'))
@@ -138,5 +138,4 @@
             </div>
         </div>
     </section> <!--/#cart_items-->
-
 </x-layout>

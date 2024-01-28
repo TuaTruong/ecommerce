@@ -15,10 +15,72 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
+    public function confirm_order(){
+        request()->validate([
+            "shipping_email" => "required",
+            "shipping_name" => "required",
+            "shipping_address" => "required",
+            "shipping_phone" => "required",
+            "shipping_fee"=>"required",
+            "shipping_method"=>"required",
+            "order_coupon" => "required",
+        ]);
+        $data=request()->all();
+        if(!$data["shipping_notes"]){
+            $data["shipping_notes"] = "";
+        }
+        $shipping = Shipping::where("user_id",auth()->user()->id)->first();
+        if($shipping){
+            $shipping->update([
+                "name" => request("shipping_name"),
+                "email" => request("shipping_email"),
+                "address" => request("shipping_address"),
+                "phone" => request("shipping_phone"),
+                "method" => request("shipping_method"),
+                "notes" =>$data["shipping_notes"]
+            ]);
+        } else{
+            Shipping::create([
+                "user_id" => auth()->user()->id,
+                "name" => request("shipping_name"),
+                "email" => request("shipping_email"),
+                "address" => request("shipping_address"),
+                "phone" => request("shipping_phone"),
+                "method" => request("shipping_method"),
+                "notes" =>$data["shipping_notes"]
+            ]);
+        }
+
+        $checkout_code = substr(md5(microtime()),rand(0,26),5);
+        $order = Order::create([
+            "user_id" => auth()->user()->id,
+            "shipping_id" => $shipping->id,
+            "status" => "1",
+            "code" => $checkout_code
+        ]);
+
+        if (session("cart")){
+            foreach(session("cart") as $key => $cart){
+                $order_detail = OrderDetails::create([
+                    "code" => $checkout_code,
+                    "product_id" => $cart["id"],
+                    "product_quantity" => $cart["qty"],
+                    "product_name" => $cart["name"],
+                    "product_price" => $cart["price"],
+                    "feeship" => $data["shipping_fee"],
+                    "product_coupon" => $data["order_coupon"]
+                ]);
+            }
+        }
+
+    }
     public function checkout(){
         $cities = City::all();
+        $shipping = Shipping::where("user_id",auth()->user()->id)->first();
+
         return view("pages.checkout.show_checkout",[
-            "cities" =>$cities
+            "cities" =>$cities,
+            "shipping" => $shipping
         ]);
     }
 
@@ -46,7 +108,6 @@ class CheckoutController extends Controller
         $attributesPayment["status"] = request("status") ?? "đang xử lý";
         $payment = Payment::create($attributesPayment);
 
-        // dd(Cart::total());
         $order = Order::create([
             "user_id" => auth()->user()->id,
             "shipping_id" => session("shipping_id"),

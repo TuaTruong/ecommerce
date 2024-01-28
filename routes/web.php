@@ -6,6 +6,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
@@ -61,8 +62,9 @@ Route::middleware(["admin"])->group(function(){
     Route::get("/all-product", [ProductController::class,"all_product"]);
 
     //Order
-    Route::get("/manage-order", [CheckoutController::class,"manage_order"]);
-    Route::get("/view-order/{order_id}", [CheckoutController::class,"view_order"]);
+    Route::get("/manage-order", [OrderController::class,"manage_order"]);
+    // Route::get("/manage-order", [CheckoutController::class,"manage_order"]);
+    Route::get("/view-order/{order_code}", [OrderController::class,"view_order"]);
 
     //Coupon
     Route::get("/add-coupon",[CouponController::class,"add_coupon"]);
@@ -122,4 +124,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post("/calculate-fee",[DeliveryController::class,"calculate_fee"]);
     Route::get("/delete-fee",[DeliveryController::class,"delete_fee"]);
+    Route::post("/confirm-order",[CheckoutController::class,"confirm_order"]);
 });

@@ -429,6 +429,54 @@
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $(".send_order").click(function() {
+                let shipping_email = $(".shipping_email").val();
+                let shipping_name = $(".shipping_name").val();
+                let shipping_address = $(".shipping_address").val();
+                let shipping_phone = $(".shipping_phone").val();
+                let shipping_notes = $(".shipping_notes").val();
+                let shipping_method = $(".payment_select").val();
+                let shipping_fee = $(".shipping_fee").val();
+                let order_coupon = $(".order_coupon").val();
+                let _token = $('input[name="_token"]').val();
+                Swal.fire({
+                    title: "Bạn có chắc chắn muốn đặt hàng không",
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Có",
+                    denyButtonText: `Không`
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/confirm-order",
+                            method: "POST",
+                            data: {
+                                shipping_email: shipping_email,
+                                shipping_name: shipping_name,
+                                shipping_address: shipping_address,
+                                shipping_phone: shipping_phone,
+                                shipping_notes: shipping_notes,
+                                shipping_fee: shipping_fee,
+                                shipping_method: shipping_method,
+                                order_coupon: order_coupon,
+                                _token: _token
+                            },
+                            success: function(data) {
+                                Swal.fire("Đặt đơn thành công!", "", "success");
+                            },
+                            error: function(data, textStatus, errorThrown) {
+                                console.log(data);
+
+                            },
+                        })
+                    } else{
+                        Swal.fire("Xác nhận hủy", "", "info");
+                    }
+                });
+
+            })
+
             $(".choose").on("change", function() {
                 let action = $(this).attr("id");
                 let ma_id = $(this).val();
@@ -459,39 +507,63 @@
                 })
             })
             $(".calculate_delivery").click(function() {
+                let shipping_email = $(".shipping_email").val();
+                let shipping_name = $(".shipping_name").val();
+                let shipping_address = $(".shipping_address").val();
+                let shipping_phone = $(".shipping_phone").val();
+                let shipping_notes = $(".shipping_notes").val();
+                let shipping_method = $(".payment_select").val();
+
                 let matp = $(".city").val();
                 let maqh = $(".province").val();
                 let xaid = $(".ward").val();
-                var _token = $('input[name="_token"]').val();
+                let _token = $('input[name="_token"]').val();
 
                 $.ajax({
                     url: "/calculate-fee",
                     method: "POST",
                     data: {
+                        shipping_method: shipping_method,
+                        shipping_email: shipping_email,
+                        shipping_name: shipping_name,
+                        shipping_address: shipping_address,
+                        shipping_phone: shipping_phone,
+                        shipping_notes: shipping_notes,
                         matp: matp,
                         maqh: maqh,
                         xaid: xaid,
                         _token: _token
                     },
                     success: function(data) {
-                        location.reload()
+                        $(".feeship_container").html(data);
                     },
                     error: function(data, textStatus, errorThrown) {
                         console.log(data);
 
                     },
                 })
+            })
+            $(".feeship_delete").click(function() {
+                $.ajax({
+                    url: "/delete-fee",
+                    method: "GET",
+                    success: function(data) {
+                        $(".feeship_container").html("Phí vận chuyển");
+                    },
+                    error: function(data, textStatus, errorThrown) {
+                        console.log(data);
 
-
+                    },
+                })
             })
             $(".add-to-cart").click(function() {
-                var id = $(this).data("id_pro");
-                var cart_product_id = $(".cart_product_id_" + id).val();
-                var cart_product_name = $(".cart_product_name_" + id).val();
-                var cart_product_image = $(".cart_product_image_" + id).val();
-                var cart_product_price = $(".cart_product_price_" + id).val();
-                var cart_product_qty = $(".cart_product_qty_" + id).val();
-                var _token = $('input[name="_token"]').val();
+                let id = $(this).data("id_pro");
+                let cart_product_id = $(".cart_product_id_" + id).val();
+                let cart_product_name = $(".cart_product_name_" + id).val();
+                let cart_product_image = $(".cart_product_image_" + id).val();
+                let cart_product_price = $(".cart_product_price_" + id).val();
+                let cart_product_qty = $(".cart_product_qty_" + id).val();
+                let _token = $('input[name="_token"]').val();
                 $.ajax({
                     url: "/add-cart-ajax",
                     method: "POST",
@@ -518,7 +590,6 @@
                     },
                     error: function(data, textStatus, errorThrown) {
                         console.log(data);
-
                     },
                 })
             })

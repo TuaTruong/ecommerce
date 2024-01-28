@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id");
             $table->foreignId("shipping_id");
-            $table->foreignId("payment_id");
-            $table->string("total",50);
-            $table->text("status")->charset("utf8");
+            $table->string("status")->charset("utf8");
+            $table->string("code");
             $table->timestamps();
         });
     }
