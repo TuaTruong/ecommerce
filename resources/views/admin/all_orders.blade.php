@@ -31,6 +31,7 @@
                         @foreach ($orders as $key => $ord)
                             @php
                                 $i++;
+
                             @endphp
                             <tr>
                                 <td><i>{{ $i }}</i>
@@ -53,6 +54,9 @@
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+
+                        </tr>
                     </tbody>
                 </table>
             </div>
