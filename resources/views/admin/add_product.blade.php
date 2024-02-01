@@ -20,6 +20,11 @@
                                     id="exampleInputEmail1" placeholder="Giá sản phẩm">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                <input type="text" name="price" class="form-control"
+                                    id="exampleInputEmail1" placeholder="Số lượng sản phẩm">
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
                                 <input type="file" name="image" class="form-control"
                                     id="exampleInputEmail1">

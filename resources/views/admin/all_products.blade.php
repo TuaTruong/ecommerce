@@ -37,6 +37,7 @@
                             </th>
                             <th>Tên</th>
                             <th>Giá</th>
+                            <th>Số lượng sản phẩm</th>
                             <th>Hình ảnh</th>
                             <th>Danh mục</th>
                             <th>Thương hiệu</th>
@@ -52,6 +53,7 @@
                                 </td>
                                 <td>{{ $pro->name }}</td>
                                 <td>{{ $pro->price }}</td>
+                                <td>{{ $pro->qty }}</td>
                                 <td>
                                     @isset($pro->image)
                                         <img height="100" width="150" src="/uploads/products/{{ $pro->image }}"
@@ -83,25 +85,17 @@
                         @endforeach
                     </tbody>
                 </table>
+                <form action="/import-csv" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" accept=".xlsx"><br>
+                    <input type="submit" value="Import CSV" name="import_csv" class="btn btn-warning">
+                </form>
+                <form action="/export-csv" method="POST">
+                    @csrf
+                    <input type="submit" value="Export CSV" name="export_csv" class="btn btn-success">
+                </form>
             </div>
-            <footer class="panel-footer">
-                <div class="row">
 
-                    <div class="col-sm-5 text-center">
-                        <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                    </div>
-                    <div class="col-sm-7 text-right text-center-xs">
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
-                            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
 </x-admin-layout>

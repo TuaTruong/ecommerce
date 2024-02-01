@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Imports\ExcelImports;
+use App\Exports\ExcelExports;
+use Excel;
 
 class CategoryController extends Controller
 {
@@ -59,8 +62,19 @@ class CategoryController extends Controller
     }
 
     public function show_category_home($category_id){
-        return view("pages.category.show_category",[
-            "all_product" => Category::find($category_id)->products
+        $category = Category::find($category_id);
+        return view("pages.home",[
+            "title" => $category->name,
+            "all_product" => $category->products()->paginate(9)
         ]);
+    }
+    public function import_csv(){
+        $path = request()->file('file')->getRealPath();
+        Excel::import(new ExcelImports, $path);
+        return back();
+
+    }
+    public function export_csv(){
+        return Excel::download(new ExcelExports , 'product.xlsx');
     }
 }

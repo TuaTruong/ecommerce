@@ -50,7 +50,8 @@
                     <tbody>
                         @foreach ($all_categories as $cate_pro)
                             <tr>
-                                <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label>
+                                <td><label class="i-checks m-b-none"><input type="checkbox"
+                                            name="post[]"><i></i></label>
                                 </td>
                                 <td>{{ $cate_pro->name }}</td>
                                 <td>
@@ -58,41 +59,32 @@
                                         <a href="/toggle-category-status/{{ $cate_pro->id }}"
                                             style="color: green">Hiện</a>
                                     @else
-                                        <a href="/toggle-category-status/{{ $cate_pro->id }}"
-                                            style="color: red">Ẩn</a>
+                                        <a href="/toggle-category-status/{{ $cate_pro->id }}" style="color: red">Ẩn</a>
                                     @endif
                                 </td>
                                 <td>13.12.2023</td>
                                 <td>
-                                    <a href="/edit-category/{{ $cate_pro->id }}" class="active"
-                                        ui-toggle-class=""><i
+                                    <a href="/edit-category/{{ $cate_pro->id }}" class="active" ui-toggle-class=""><i
                                             class="fa fa-pencil-square-o text-success text-active"></i></a>
-                                    <a href="/delete-category/{{ $cate_pro->id }}" onclick="return confirm('Bạn có chắc là muốn xóa danh mục này không?')">
+                                    <a href="/delete-category/{{ $cate_pro->id }}"
+                                        onclick="return confirm('Bạn có chắc là muốn xóa danh mục này không?')">
                                         <i class="fa fa-times text-danger text"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-            <footer class="panel-footer">
-                <div class="row">
+                <form action="/import-csv" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" accept=".xlsx"><br>
+                    <input type="submit" value="Import CSV" name="import_csv" class="btn btn-warning">
+                </form>
+                <form action="/export-csv" method="POST">
+                    @csrf
+                    <input type="submit" value="Export CSV" name="export_csv" class="btn btn-success">
+                </form>
 
-                    <div class="col-sm-5 text-center">
-                        <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                    </div>
-                    <div class="col-sm-7 text-right text-center-xs">
-                        <ul class="pagination pagination-sm m-t-none m-b-none">
-                            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">4</a></li>
-                            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
+            </div>
         </div>
     </div>
 </x-admin-layout>

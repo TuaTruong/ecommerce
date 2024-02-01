@@ -53,14 +53,14 @@ class CartController extends Controller
         $data = request()->all();
         $session_id = substr(md5(microtime()),rand(0,26),5);
         $cart = session("cart");
-
         $is_available = false;
         if ($cart){
-            foreach($cart as $val){
-                if ( $val["id"] == $data["id"]){$is_available = true;}
+            foreach($cart as $key => $val){
+                if ( $val["id"] == $data["id"] ){
+                    $is_available = true;
+                }
             }
         }
-
         if(!$is_available){
             $cart[] = array(
                 "session_id" =>$session_id,
@@ -68,6 +68,7 @@ class CartController extends Controller
                 "id" => $data["id"],
                 "image" => $data["image"],
                 "qty" => $data["qty"],
+                "storage_qty" => $data["storage_qty"],
                 "price" => $data["price"]
             );
         }
@@ -96,19 +97,22 @@ class CartController extends Controller
     public function update_cart(){
         $data = request()->all();
         $cart = session("cart");
-
+        $message = "";
         if($cart){
             foreach($data["cart_qty"] as $key => $qty ){
                 foreach($cart as $index => $val){
-                    if ($val["session_id"] == $key){
+                    if ($val["session_id"] == $key && $qty<$cart[$index]["storage_qty"]){
                         $cart[$index]["qty"] = $qty;
+                        $message .= "<p>Cập nhật số lượng sản phẩm ". $cart[$index]["name"] ." thành công </p>";
+                    } elseif($val["session_id"] == $key && $qty>$cart[$index]["storage_qty"]){
+                        $message .= "<p>Cập nhật số lượng sản phẩm ". $cart[$index]["name"] ." thất bại </p>";
                     }
                 }
             }
             session()->put("cart",$cart);
-            return redirect()->back()->withInput()->with("message","Cập nhật sản phẩm thành công ");
+            return redirect()->back()->withInput()->with("message",$message);
         }
-        return redirect()->back()->withInput()->with("message","Cập nhật sản phẩm thất bại");
+        return redirect()->back()->withInput()->with("message","Cập nhật số lượng thất bại");
     }
 
     public function delete_all_cart_product(){

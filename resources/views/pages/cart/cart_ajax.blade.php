@@ -15,6 +15,7 @@
                             <tr class="cart_menu">
                                 <td class="image">Hình ảnh</td>
                                 <td class="description">Tên sản phẩm</td>
+                                <td class="description">Tồn kho</td>
                                 <td class="price">Giá sản phẩm</td>
                                 <td class="quantity">Số lượng</td>
                                 <td class="total">Thành tiền</td>
@@ -22,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <p class="text-alert" style="color: red">{{ session('message') }}</p>
+                            <p class="text-alert" style="color: red">{!! session('message') !!}</p>
                             @php
                                 // print_r(session('cart'));
                                 $total = 0;
@@ -42,6 +43,10 @@
                                             <h4><a href=""></a></h4>
                                             <p>{{ $cart['name'] }}</p>
                                         </td>
+                                        <td class="cart_price">
+                                            <p>{{ number_format($cart['storage_qty'], 0, ',', '.') }}</p>
+                                        </td>
+
                                         <td class="cart_price">
                                             <p>{{ number_format($cart['price'], 0, ',', '.') }} VND</p>
                                         </td>
@@ -79,7 +84,7 @@
                                     </td>
                                     <td>
                                         <li>Tổng <span>{{ number_format($total, 0, ',', '.') }} VND</span></li>
-                                        @if (session("coupon"))
+                                        @if (session('coupon'))
                                             <li>
                                                 @if (session('coupon'))
                                                     @if (session('coupon')[0]['condition'])
@@ -97,9 +102,11 @@
                                                     @endif
                                                 @endif
                                             </li>
-                                            <li>Thành tiền <span>{{ number_format($total_coupon, 0, ',', '.') }} VND</span></li>
+                                            <li>Thành tiền <span>{{ number_format($total_coupon, 0, ',', '.') }}
+                                                    VND</span></li>
                                         @else
-                                            <li>Thành tiền <span>{{ number_format($total, 0, ',', '.') }} VND</span></li>
+                                            <li>Thành tiền <span>{{ number_format($total, 0, ',', '.') }} VND</span>
+                                            </li>
                                         @endif
                                     </td>
                                     <td>
@@ -120,16 +127,17 @@
                         </tbody>
                     </table>
                 </form>
-                @if (session("cart"))
+                @if (session('cart'))
                     <tr>
                         <td colspan="5">
                             <form action="/check-coupon" method="POST">
                                 @csrf
-                                <input type="text" class="form-control" name="code" placeholder="Nhập mã giảm giá">
+                                <input type="text" class="form-control" name="code"
+                                    placeholder="Nhập mã giảm giá">
                                 <br>
                                 <input type="submit" class="btn btn-default check_coupon" value="Tính mã giảm giá">
-                                @if (session("coupon"))
-                                    <a href="/unset-coupon" class="btn btn-default check_coupon" >Xoá mã khuyến mãi</a>
+                                @if (session('coupon'))
+                                    <a href="/unset-coupon" class="btn btn-default check_coupon">Xoá mã khuyến mãi</a>
                                 @endif
                             </form>
                         </td>

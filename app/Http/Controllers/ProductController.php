@@ -29,7 +29,8 @@ class ProductController extends Controller
             "content" =>"required",
             "desc" =>"required",
             "status" =>"required",
-            "price" =>"required"
+            "price" =>"required",
+            "qty"=>"required"
         ]);
         $get_image = request()->file("image");
         if($get_image){

@@ -21,7 +21,6 @@ class AuthController extends Controller
         $user = User::create($attributes);
         auth()->login($user);
 
-        // return redirect("/checkout");
         return redirect()->back()->withInput();
     }
 
@@ -44,4 +43,5 @@ class AuthController extends Controller
         session()->regenerate();
         return redirect("/");
     }
+
 }

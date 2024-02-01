@@ -35,6 +35,14 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                <input type="text" value="{{ $edit_product->qty }}" name="price"
+                                    class="form-control" id="exampleInputEmail1" placeholder="Giá sản phẩm">
+                                @error('price')
+                                    <p class="text-alert">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
                                 <input type="file" name="image" class="form-control" id="exampleInputEmail1">
                                 <img height="100" width="100" src="/uploads/products/{{ $edit_product->image }}"

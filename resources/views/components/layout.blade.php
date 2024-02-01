@@ -1,3 +1,5 @@
+@props(['sliders'])
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,54 +158,23 @@
                             <li data-target="#slider-carousel" data-slide-to="1"></li>
                             <li data-target="#slider-carousel" data-slide-to="2"></li>
                         </ol>
+                        <div class="carousel-inner" style="height: 600px">
+                            {{-- <p>{{$sliders}}</p> --}}
+                            @foreach ($sliders as $key => $slide)
+                                <div class="item {{$key==0 ? 'active' : ''}}">
+                                    <div class="col-sm-6">
+                                        <h1><span>E</span>-SHOPPER</h1>
+                                        <h2>Free E-Commerce Template</h2>
+                                        <p>{{$slide->desc}} </p>
+                                        <button type="button" class="btn btn-default get">Get it now</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img src='/uploads/sliders/{{$slide->image}}'
+                                            class="girl img-responsive" alt="" height="120" width="500"/>
+                                    </div>
+                                </div>
+                            @endforeach
 
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-sm-6">
-                                    <h1><span>E</span>-SHOPPER</h1>
-                                    <h2>Free E-Commerce Template</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                    <button type="button" class="btn btn-default get">Get it now</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <img src="{{ asset('frontend/images/girl1.jpg') }}" class="girl img-responsive"
-                                        alt="" />
-                                    <img src="{{ asset('frontend/images/pricing.png') }}" class="pricing"
-                                        alt="" />
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-sm-6">
-                                    <h1><span>E</span>-SHOPPER</h1>
-                                    <h2>100% Responsive Design</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                    <button type="button" class="btn btn-default get">Get it now</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <img src="{{ asset('frontend/images/girl2.jpg') }}" class="girl img-responsive"
-                                        alt="" />
-                                    <img src="{{ asset('frontend/images/pricing.png') }}" class="pricing"
-                                        alt="" />
-                                </div>
-                            </div>
-
-                            <div class="item">
-                                <div class="col-sm-6">
-                                    <h1><span>E</span>-SHOPPER</h1>
-                                    <h2>Free Ecommerce Template</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                    <button type="button" class="btn btn-default get">Get it now</button>
-                                </div>
-                                <div class="col-sm-6">
-                                    <img src="{{ asset('frontend/images/girl3.jpg') }}" class="girl img-responsive"
-                                        alt="" />
-                                    <img src="{{ asset('frontend/images/pricing.png') }}" class="pricing"
-                                        alt="" />
-                                </div>
-                            </div>
 
                         </div>
 
@@ -231,7 +202,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title"><a
-                                                href="/danh-muc-san-pham/{{ $category->id }}">{{ $category->name }}</a>
+                                                href="/danh-muc-san-pham/{{ $category->id }}">{{ $category->name }} ({{$categories->count()}})</a>
                                         </h4>
                                     </div>
                                 </div>
@@ -243,8 +214,7 @@
                             <div class="brands-name">
                                 <ul class="nav nav-pills nav-stacked">
                                     @foreach ($brands as $brand)
-                                        <li><a href="/thuong-hieu-san-pham/{{ $brand->id }}"> <span
-                                                    class="pull-right">(50)</span>{{ $brand->name }}</a></li>
+                                        <li><a href="/thuong-hieu-san-pham/{{ $brand->id }}"> {{ $brand->name }} ({{$brands->count()}})</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -470,7 +440,7 @@
 
                             },
                         })
-                    } else{
+                    } else {
                         Swal.fire("Xác nhận hủy", "", "info");
                     }
                 });
@@ -556,42 +526,48 @@
                     },
                 })
             })
+
             $(".add-to-cart").click(function() {
                 let id = $(this).data("id_pro");
-                let cart_product_id = $(".cart_product_id_" + id).val();
                 let cart_product_name = $(".cart_product_name_" + id).val();
                 let cart_product_image = $(".cart_product_image_" + id).val();
                 let cart_product_price = $(".cart_product_price_" + id).val();
                 let cart_product_qty = $(".cart_product_qty_" + id).val();
+                let product_storage_qty = $(".product_storage_qty_" + id).val();
                 let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "/add-cart-ajax",
-                    method: "POST",
-                    data: {
-                        id: cart_product_id,
-                        name: cart_product_name,
-                        image: cart_product_image,
-                        price: cart_product_price,
-                        qty: cart_product_qty,
-                        _token: _token
-                    },
-                    success: function(data) {
-                        Swal.fire({
-                            title: "Thêm sản phẩm vào giỏ hàng thành công",
-                            icon: "question",
-                            iconHtml: "؟",
-                            confirmButtonText: "Đi đến giỏ hàng",
-                            cancelButtonText: "Đồng ý",
-                            showCancelButton: true,
-                            showCloseButton: true
-                        }).then(function(result) {
-                            if (result.isConfirmed) window.location.href = "/gio-hang"
-                        });
-                    },
-                    error: function(data, textStatus, errorThrown) {
-                        console.log(data);
-                    },
-                })
+                if(parseInt(product_storage_qty)<parseInt(cart_product_qty)){
+                    alert("Làm ơn đặt số lượng nhỏ hơn " + product_storage_qty);
+                } else{
+                    $.ajax({
+                        url: "/add-cart-ajax",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            name: cart_product_name,
+                            image: cart_product_image,
+                            price: cart_product_price,
+                            storage_qty: product_storage_qty,
+                            qty: cart_product_qty,
+                            _token: _token
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                title: "Thêm sản phẩm vào giỏ hàng thành công",
+                                icon: "question",
+                                iconHtml: "؟",
+                                confirmButtonText: "Đi đến giỏ hàng",
+                                cancelButtonText: "Đồng ý",
+                                showCancelButton: true,
+                                showCloseButton: true
+                            }).then(function(result) {
+                                if (result.isConfirmed) window.location.href = "/gio-hang"
+                            });
+                        },
+                        error: function(data, textStatus, errorThrown) {
+                            console.log(data);
+                        },
+                    })
+                }
             })
         });
     </script>

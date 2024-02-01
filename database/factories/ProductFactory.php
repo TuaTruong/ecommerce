@@ -26,6 +26,8 @@ class ProductFactory extends Factory
             "content" => $this->faker->sentence(),
             "price" => $this->faker->randomNumber(5),
             "status" => 1,
+            "qty" => $this->faker->randomNumber(2),
+            "sold_qty" => 0
         ];
     }
 }

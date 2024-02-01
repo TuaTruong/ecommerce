@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,14 +35,15 @@ Route::middleware(["admin"])->group(function(){
     Route::get("/logout", [AdminController::class,"logout"])->middleware("admin");
 
     // Category
+    Route::get("/all-category", [CategoryController::class,"all_category"]);
     Route::get("/add-category", [CategoryController::class,"add_category"]);
     Route::post("/save-category", [CategoryController::class,"save_category"]);
     Route::patch("/update-category/{category_id}", [CategoryController::class,"update_category"]);
     Route::get("/edit-category/{category_id}", [CategoryController::class,"edit_category"]);
     Route::get("/delete-category/{category_id}", [CategoryController::class,"delete_category"]);
     Route::get("/toggle-category-status/{category_id}", [CategoryController::class,"toggle_category_status"]);
-    Route::get("/all-category", [CategoryController::class,"all_category"]);
-
+    Route::post("/import-csv", [CategoryController::class,"import_csv"]);
+    Route::post("/export-csv", [CategoryController::class,"export_csv"]);
 
     // Brand
     Route::get("/add-brand", [BrandController::class,"add_brand"]);
@@ -63,9 +65,10 @@ Route::middleware(["admin"])->group(function(){
 
     //Order
     Route::get("/manage-order", [OrderController::class,"manage_order"]);
-    // Route::get("/manage-order", [CheckoutController::class,"manage_order"]);
     Route::get("/view-order/{order_code}", [OrderController::class,"view_order"]);
     Route::get("/print-order/{checkout_code}", [OrderController::class,"print_order"]);
+    Route::post("/update-order-status", [OrderController::class,"update_order_status"]);
+    Route::post("/update-order-quantity", [OrderController::class,"update_order_quantity"]);
 
     //Coupon
     Route::get("/add-coupon",[CouponController::class,"add_coupon"]);
@@ -78,6 +81,12 @@ Route::middleware(["admin"])->group(function(){
     Route::post("/add-delivery",[DeliveryController::class,"add_delivery"]);
     Route::post("/select-feeship",[DeliveryController::class,"select_feeship"]);
     Route::post("/update-delivery",[DeliveryController::class,"update_delivery"]);
+
+
+    //Banner slide
+    Route::get("/all-slides",[SliderController::class,"all_sliders"]);
+    Route::get("/add-slide",[SliderController::class,"add_slider"]);
+    Route::post("/save-slide",[SliderController::class,"save_slide"]);
 });
 
 // Home
@@ -95,7 +104,7 @@ Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class,"detail_
 
 //Cart
 Route::post("/save-cart", [CartController::class,"save_cart"]);
-Route::get("/show-cart", [CartController::class,"show_cart"]);
+// Route::get("/show-cart", [CartController::class,"show_cart"]);
 Route::get("/gio-hang", [CartController::class,"gio_hang"]);
 Route::get("/delete-to-cart/{rowId}", [CartController::class,"delete_to_cart"]);
 Route::post("/update-cart-quantity", [CartController::class,"update_cart_quantity"]);
@@ -127,3 +136,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/delete-fee",[DeliveryController::class,"delete_fee"]);
     Route::post("/confirm-order",[CheckoutController::class,"confirm_order"]);
 });
+
+Route::get("/session",[HomeController::class,"session"]);

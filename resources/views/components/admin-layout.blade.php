@@ -87,11 +87,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
+                                <span>Banner</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/all-slides">Quản lý Slider</a></li>
+                                <li><a href="/add-slide">Thêm Slider</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
                                 <span>Vận chuyển</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="/delivery">Quản lý vận chuyển</a></li>
-                                {{-- <li><a href="/all-category">Liệt kê danh mục sản phẩm</a></li> --}}
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -102,7 +111,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <ul class="sub">
                                 <li><a href="/add-coupon">Quản lý mã giảm giá</a></li>
                                 <li><a href="/all-coupons">Liệt kê mã giảm giá</a></li>
-                                {{-- <li><a href="/all-category">Liệt kê danh mục sản phẩm</a></li> --}}
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -112,7 +120,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </a>
                             <ul class="sub">
                                 <li><a href="/manage-order">Quản lý đơn hàng</a></li>
-                                {{-- <li><a href="/all-category">Liệt kê danh mục sản phẩm</a></li> --}}
                             </ul>
                         </li>
 
@@ -189,6 +196,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script> --}}
     <script>
         $(document).ready(function() {
+
+
             //BOX BUTTON SHOW AND CLOSE
             jQuery('.small-graph-box').hover(function() {
                 jQuery(this).find('.box-button').fadeIn('fast');
@@ -318,8 +327,83 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     </script>
     <script>
-        $(document).ready(function(){
-            $(document).on("blur",".fee_edit",function(){
+        $(document).ready(function() {
+            $(".update_qty_order").click(function() {
+                let order_product_id = $(this).data('product_id');
+                let order_qty = $(".order_qty_" + order_product_id).val()
+                let order_code = $(".order_code").val()
+                let _token = $('input[name="_token"]').val();
+
+                $.ajax({
+                    url: "/update-order-quantity",
+                    method: "POST",
+                    data: {
+                        order_product_id: order_product_id,
+                        order_qty: order_qty,
+                        order_code: order_code,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        alert("Cập nhật số lượng thành công");
+                    },
+                    error: function(data, textStatus, errorThrown) {
+
+                        console.log(data)
+                    },
+                })
+
+            })
+            $(".order_status").on("change", function() {
+                let order_status = $(this).val();
+                let order_id = $(this).children(":selected").attr("id");
+                let _token = $('input[name="_token"]').val();
+
+                let quantity = [];
+                $("input[name='product_quantity']").each(function() {
+                    quantity.push($(this).val());
+                })
+                let order_product_id = [];
+                $("input[name='order_product_id']").each(function() {
+                    order_product_id.push($(this).val());
+                })
+
+                let errCount = 0;
+                for (let i = 0; i < order_product_id.length; i++) {
+                    let order_qty = $('.order_qty_' + order_product_id[i]).val()
+                    let order_qty_storage = $('.order_qty_storage_' + order_product_id[i]).val()
+
+                    if (parseInt(order_qty) > parseInt(order_qty_storage)) {
+                        $(".color_qty_" + order_product_id[i]).css("background", "#000");
+                        errCount++;
+                    }
+                }
+                if (errCount > 0) {
+                    alert("Số lượng bán trong kho không đủ");
+                } else {
+                    $.ajax({
+                        url: "/update-order-status",
+                        method: "POST",
+                        data: {
+                            order_status: order_status,
+                            order_id: order_id,
+                            quantity: quantity,
+                            order_product_id: order_product_id,
+                            _token: _token
+                        },
+                        success: function(data) {
+                            alert("Thay đổi tình trạng đơn hàng thành công");
+                            location.reload()
+                        },
+                        error: function(data, textStatus, errorThrown) {
+
+                            console.log(data)
+                        },
+                    })
+                }
+            })
+
+
+            $(document).on("blur", ".fee_edit", function() {
                 let id = $(this).data("feeship_id");
                 let fee_value = $(this).text();
                 let _token = $('input[name="_token"]').val();
@@ -327,11 +411,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     url: "/update-delivery",
                     method: "POST",
                     data: {
-                        id:id,
-                        fee:fee_value,
-                        _token:_token
+                        id: id,
+                        fee: fee_value,
+                        _token: _token
                     },
-                    success: function(data){
+                    success: function(data) {
                         fetch_delivery();
                     },
                     error: function(data, textStatus, errorThrown) {
@@ -341,15 +425,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 })
             })
 
-            function fetch_delivery(){
+            function fetch_delivery() {
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
                     url: "/select-feeship",
                     method: "POST",
                     data: {
-                        _token:_token
+                        _token: _token
                     },
-                    success: function(data){
+                    success: function(data) {
                         $("#load_fee").html(data)
                     },
                     error: function(data, textStatus, errorThrown) {
@@ -361,7 +445,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             fetch_delivery();
 
-            $(".add_delivery").click(function(){
+            $(".add_delivery").click(function() {
                 let city = $(".city").val()
                 let province = $(".province").val()
                 let ward = $(".ward").val()
@@ -371,13 +455,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     url: "/add-delivery",
                     method: "POST",
                     data: {
-                        matp:city,
-                        maqh:province,
-                        xaid:ward,
-                        feeship:fee_ship,
-                        _token:_token
+                        matp: city,
+                        maqh: province,
+                        xaid: ward,
+                        feeship: fee_ship,
+                        _token: _token
                     },
-                    success: function(data){
+                    success: function(data) {
                         fetch_delivery();
                     },
                     error: function(data, textStatus, errorThrown) {
@@ -387,15 +471,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 })
             })
 
-            $(".choose").on("change",function(){
+            $(".choose").on("change", function() {
                 let action = $(this).attr("id");
                 let ma_id = $(this).val();
                 let _token = $('input[name="_token"]').val();
                 let result = "";
-                if (action == "city"){
-                    result="province";
+                if (action == "city") {
+                    result = "province";
                 } else {
-                    result="ward";
+                    result = "ward";
                 }
 
 
@@ -403,12 +487,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     url: "/select-delivery",
                     method: "POST",
                     data: {
-                        action:action,
-                        ma_id:ma_id,
-                        _token:_token
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
                     },
-                    success: function(data){
-                        $("#"+result).html(data)
+                    success: function(data) {
+                        $("#" + result).html(data)
                     },
                     error: function(data, textStatus, errorThrown) {
                         console.log(data);

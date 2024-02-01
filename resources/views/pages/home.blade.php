@@ -1,7 +1,8 @@
 <x-layout>
     <div class="features_items"><!--features_items-->
-        <h2 class="title text-center">Sản phẩm mới nhất</h2>
+        <h2 class="title text-center">{{$title ?? "Sản phẩm mới nhất"}}</h2>
         @foreach ($all_product as $product)
+        <a href="/chi-tiet-san-pham/{{$product->id}}">
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                     <div class="single-products">
@@ -13,6 +14,8 @@
                                 <input type="hidden" value="{{ $product->name }}" class="cart_product_name_{{$product->id}}">
                                 <input type="hidden" value="{{ $product->image }}" class="cart_product_image_{{$product->id}}">
                                 <input type="hidden" value="{{ $product->price }}" class="cart_product_price_{{$product->id}}">
+                                <input class="product_storage_qty_{{$product->id}}" type="hidden" value="{{ $product->qty }}" />
+
                                 <input type="hidden" class="cart_product_qty_{{$product->id}}" value="1">
                                 <a href="/chi-tiet-san-pham/{{ $product->id }}">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" alt="" />
@@ -32,6 +35,8 @@
                     </div>
                 </div>
             </div>
+        </a>
         @endforeach
     </div><!--features_items-->
+    {{$all_product->links()}}
 </x-layout>

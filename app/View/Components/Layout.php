@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Slider;
 use Illuminate\View\Component;
 
 class Layout extends Component
@@ -28,7 +29,8 @@ class Layout extends Component
 
         return view('components.layout',[
             "categories" => Category::all(),
-            "brands"=>Brand::all()
+            "brands"=>Brand::all(),
+            "sliders" => Slider::all()
         ]);
     }
 }
