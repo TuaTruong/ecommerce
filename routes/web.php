@@ -138,5 +138,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/delete-fee",[DeliveryController::class,"delete_fee"]);
     Route::post("/confirm-order",[CheckoutController::class,"confirm_order"]);
 });
-
-Route::get("/session",[HomeController::class,"session"]);
