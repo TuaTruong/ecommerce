@@ -14,23 +14,27 @@
                                 <p class="text-alert">{{ $err }}</p>
                             @endforeach
                         @endif
-                        <form role="form" action="/save-slide" method="POST" enctype="multipart/form-data">
+                        <form role="form" action="/update-slide/{{$slide->id}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên slider</label>
-                                <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                                    placeholder="Tên danh mục">
+                                <input type="text" name="name" class="form-control" value="{{$slide->name}}" id="exampleInputEmail1"
+                                    placeholder="Tên slide">
                             </div>
+
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả slider</label>
-                                <textarea style="resize: none" rows="8" type="text" class="form-control" value="{{$slide->desc}}" id="exampleInputPassword1"
-                                    name="desc" placeholder="Mô tả danh mục "></textarea>
+                                <textarea style="resize: none" rows="8" type="text" class="form-control" id="exampleInputPassword1"
+                                    name="desc" placeholder="Mô tả danh mục">{{$slide->desc}}</textarea>
                             </div>
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh slider</label>
                                 <input type="file" name="image" class="form-control"
                                     id="exampleInputEmail1">
                             </div>
+
+
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Hiển thị</label>
                                 <select name="status" class="form-control input-sm m-bot15">

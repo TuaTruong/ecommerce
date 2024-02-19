@@ -27,7 +27,7 @@
             </div>
             <div class="table-responsive">
                 <span class='text-alert'>{{ session('message') }}</span>
-                <table class="table table-striped b-t b-light">
+                <table class="table table-striped b-t b-light" style="margin-bottom:10px">
                     <thead>
                         <tr>
                             <th style="width:20px;">
@@ -85,6 +85,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$all_products->links()}}
                 <form action="/import-csv" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="file" accept=".xlsx"><br>

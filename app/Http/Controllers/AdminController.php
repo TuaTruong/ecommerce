@@ -18,7 +18,7 @@ class AdminController extends Controller
             "password" => "required",
             "g-recaptcha-response" => ["required",new Captcha()]
         ]);
-        
+
         unset($attributes["g-recaptcha-response"]);
         if(!auth()->attempt($attributes)){
             throw ValidationException::withMessages([

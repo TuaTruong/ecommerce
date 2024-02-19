@@ -46,7 +46,7 @@ class ProductController extends Controller
 
     public function all_product(){
         return view("admin.all_products",[
-            "all_products" => Product::latest()->get()
+            "all_products" => Product::latest()->paginate(5)
         ]);
     }
 

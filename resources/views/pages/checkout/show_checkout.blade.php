@@ -7,8 +7,6 @@
                     <li class="active">Thanh toán giỏ hàng</li>
                 </ol>
             </div><!--/breadcrums-->
-            <p>{{session("fee")}}
-            </p>
             <div class="shopper-informations">
                 <div class="row">
                     <div class="col-sm-12 clearfix">

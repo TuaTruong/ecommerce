@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,8 +32,10 @@ Route::post("/admin-dashboard", [AdminController::class,"dashboard"]);
 
 Route::middleware(["admin"])->group(function(){
     // Admin
-    Route::get("/dashboard", [AdminController::class,"show_dashboard"])->middleware("admin");
-    Route::get("/logout", [AdminController::class,"logout"])->middleware("admin");
+    Route::get("/dashboard", [AdminController::class,"show_dashboard"]);
+    Route::get("/logout", [AdminController::class,"logout"]);
+    Route::get("/all-users", [UserController::class,"index"]);
+    Route::post("/assign-roles", [UserController::class,"assign_roles"]);
 
     // Category
     Route::get("/all-category", [CategoryController::class,"all_category"]);
@@ -84,6 +87,9 @@ Route::middleware(["admin"])->group(function(){
 
 
     //Banner slide
+    Route::get("/edit-slide/{slide_id}",[SliderController::class,"edit_slide"]);
+    Route::post("/update-slide/{slide_id}",[SliderController::class,"update_slide"]);
+    Route::get("/toggle-slide-status/{slide_id}",[SliderController::class,"toggle_slide_status"]);
     Route::get("/all-slides",[SliderController::class,"all_sliders"]);
     Route::get("/add-slide",[SliderController::class,"add_slider"]);
     Route::post("/save-slide",[SliderController::class,"save_slide"]);
@@ -103,11 +109,7 @@ Route::get('/thuong-hieu-san-pham/{brand:id}', [BrandController::class,"show_bra
 Route::get('/chi-tiet-san-pham/{product_id}', [ProductController::class,"detail_product"]);
 
 //Cart
-Route::post("/save-cart", [CartController::class,"save_cart"]);
-// Route::get("/show-cart", [CartController::class,"show_cart"]);
 Route::get("/gio-hang", [CartController::class,"gio_hang"]);
-Route::get("/delete-to-cart/{rowId}", [CartController::class,"delete_to_cart"]);
-Route::post("/update-cart-quantity", [CartController::class,"update_cart_quantity"]);
 Route::post("/update-cart", [CartController::class,"update_cart"]);
 Route::get("/delete-all-cart-product", [CartController::class,"delete_all_cart_product"]);
 Route::get("/delete-cart-product/{session_id}", [CartController::class,"delete_cart_product"]);

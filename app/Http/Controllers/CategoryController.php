@@ -65,7 +65,7 @@ class CategoryController extends Controller
         $category = Category::find($category_id);
         return view("pages.home",[
             "title" => $category->name,
-            "all_product" => $category->products()->paginate(9)
+            "all_product" => $category->products()->where("status",1)->paginate(9)
         ]);
     }
     public function import_csv(){

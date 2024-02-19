@@ -61,7 +61,7 @@ class BrandController extends Controller
         $brand = Brand::find($brand_id);
         return view("pages.home",[
             "title" => $brand->name,
-            "all_product" => $brand->products()->paginate(9)
+            "all_product" => $brand->products()->where("status",1)->paginate(9)
         ]);
     }
 }

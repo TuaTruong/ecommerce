@@ -9,45 +9,7 @@ use Illuminate\Http\Request;
 use Cart;
 class CartController extends Controller
 {
-    public function save_cart(){
-        request()->validate([
-            "qty" => "required|numeric|min:1",
-            "productid_hidden" => "required",
-        ]);
-        $productId = request("productid_hidden");
-        $quantity = request("qty");
 
-
-        $product_info = Product::find( $productId );
-        $data = array();
-        $data["id"] = $productId;
-        $data["qty"] = $quantity;
-        $data["name"] = $product_info->name;
-        $data["price"] = $product_info->price;
-        $data["weight"] = "123";
-        $data["options"]["image"] = $product_info->image;
-
-        Cart::add( $data );
-        Cart::setGlobalTax(0);
-
-        return redirect("/show-cart");
-    }
-
-    public function show_cart(){
-        return view("pages.cart.show_cart");
-    }
-
-    public function delete_to_cart($rowId){
-        Cart::update( $rowId,0 );
-        return redirect("/show-cart");
-    }
-
-    public function update_cart_quantity(Request $request){
-        $rowId = request("rowId_Cart");
-        $qty = request("cart_quantity");
-        Cart::update( $rowId, $qty );
-        return redirect("/show-cart");
-    }
 
     public function add_cart_ajax(){
         $data = request()->all();

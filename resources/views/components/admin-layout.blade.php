@@ -84,10 +84,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Tổng quan</span>
                             </a>
                         </li>
+                        @hasrole("admin")
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span>User</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="/all-users">Quản lý User</a></li>
+                                </ul>
+                            </li>
+                        @endhasrole
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
-                                <span>Banner</span>
+                                <span>Slider</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="/all-slides">Quản lý Slider</a></li>
@@ -109,8 +120,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Mã giảm giá</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="/add-coupon">Quản lý mã giảm giá</a></li>
-                                <li><a href="/all-coupons">Liệt kê mã giảm giá</a></li>
+                                <li><a href="/all-coupons">Quản lý mã giảm giá</a></li>
+                                <li><a href="/add-coupon">Thêm mã giảm giá</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -149,8 +160,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Sản phẩm</span>
                             </a>
                             <ul class="sub">
+                                <li><a href="/all-product">Quản lý sản phẩm</a></li>
                                 <li><a href="/add-product">Thêm sản phẩm</a></li>
-                                <li><a href="/all-product">Liệt kê sản phẩm</a></li>
                             </ul>
                         </li>
                     </ul>

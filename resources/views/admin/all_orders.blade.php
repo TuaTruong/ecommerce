@@ -48,9 +48,9 @@
                                 <td>
                                     <a href="/view-order/{{ $ord->code }}" class="active" ui-toggle-class=""><i
                                             class="fa fa-eye text-success text-active"></i></a>
-                                    <a href="/delete-order/{{ $ord->code }}"
+                                    {{-- <a href="/delete-order/{{ $ord->code }}"
                                         onclick="return confirm('Bạn có chắc là muốn xóa thương hiệu này không?')">
-                                        <i class="fa fa-times text-danger text"></i></a>
+                                        <i class="fa fa-times text-danger text"></i></a> --}}
                                 </td>
                             </tr>
                         @endforeach

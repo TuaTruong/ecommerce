@@ -87,8 +87,6 @@
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="/login-checkout"><i class="fa fa-user"></i> Tài khoản</a></li>
-                                <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
                                 @auth
                                     <li><a href="/checkout"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                                 @else
@@ -123,15 +121,7 @@
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a href="/trang-chu" class="active">Trang chủ</a></li>
-                                <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
-                                </li>
-                                <li><a href="404.html">Giỏ hàng</a></li>
-                                <li><a href="contact-us.html">Liên hệ</a></li>
+                                <li><a href="/gio-hang">Giỏ hàng</a></li>
                             </ul>
                         </div>
                     </div>
@@ -140,6 +130,7 @@
                             <form action="#" method="GET">
                                 <input type="text" name="search" placeholder="Search"
                                     value="{{ request('search') }}" />
+                                <button type="submit" class="btn btn-sm btn-primary" style="margin-top:0px">Tìm kiếm</button>
                             </form>
                         </div>
                     </div>

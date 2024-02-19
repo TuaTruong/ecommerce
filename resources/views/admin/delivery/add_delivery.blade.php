@@ -42,7 +42,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Tên danh mục</label>
+                                <label for="exampleInputEmail1">Phí ship</label>
                                 <input type="text" name="fee_ship" class="form-control fee_ship "
                                     id="exampleInputEmail1" placeholder="Tên danh mục">
                             </div>

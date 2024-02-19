@@ -17,8 +17,8 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()?->hasRole("admin")){
-            abort(Response::HTTP_FORBIDDEN);
+        if (!auth()->user()?->hasAnyRoles(["admin","author"])){
+            return redirect("/");
         }
         return $next($request);
     }

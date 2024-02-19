@@ -44,6 +44,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function getAuthPassword(){
+        return $this->password;
+    }
 
     public function hasAnyRoles($roles){
         return null != $this->roles()->whereIn("name",$roles)->first();
@@ -52,5 +55,4 @@ class User extends Authenticatable
     public function hasRole($role){
         return null != $this->roles()->where("name",$role)->first();
     }
-
 }
