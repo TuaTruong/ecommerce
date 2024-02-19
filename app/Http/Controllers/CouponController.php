@@ -16,7 +16,6 @@ class CouponController extends Controller
         return redirect()->back()->with("message","Bạn chưa áp mã");
     }
     public function check_coupon(){
-        // dd(request()->all());
         request()->validate([
             "code" => "required"
         ]);
@@ -35,14 +34,13 @@ class CouponController extends Controller
     }
 
     public function add_coupon(){
-        return view("admin.add_coupon");
+        return view("admin.coupon.add_coupon");
     }
 
     public function save_coupon(){
         $attributes = request()->validate([
             "name"=>"required",
             "code"=>"required",
-            "quantity"=>"required",
             "discount"=>"required",
             "condition" => "required"
         ]);
@@ -53,7 +51,7 @@ class CouponController extends Controller
 
     public function all_coupons(){
         $all_coupons = Coupon::latest()->get();
-        return view("admin.all_coupons",[
+        return view("admin.coupon.all_coupons",[
             "all_coupons" => $all_coupons
         ]);
     }

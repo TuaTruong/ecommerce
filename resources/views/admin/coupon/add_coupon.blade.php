@@ -25,11 +25,6 @@
                                 <input type="text" name="code" class="form-control" id="exampleInputEmail1">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Số lượng mã giảm giá</label>
-                                <textarea style="resize: none" rows="8" type="password" class="form-control"
-                                    name="quantity"></textarea>
-                            </div>
-                            <div class="form-group">
                                 <label for="exampleInputPassword1">Tính năng mã</label>
                                 <select name="condition" class="form-control input-sm m-bot15">
                                     <option value="0">Giảm theo tiền</option>
@@ -37,7 +32,7 @@
                                 </select>
                             </div>
                             <div class="form-group">Nhập số % hoặc tiền giảm</label>
-                                <textarea style="resize: none" rows="8" type="password" class="form-control" 
+                                <textarea style="resize: none" rows="8" type="password" class="form-control"
                                     name="discount" placeholder="Mô tả danh mục "></textarea>
                             </div>
                             <button type="submit" name="add_category_product" class="btn btn-info">Thêm mã</button>

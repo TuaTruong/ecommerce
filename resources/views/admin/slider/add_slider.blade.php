@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả slider</label>
-                                <textarea style="resize: none" rows="8" type="text" class="form-control" value="{{$slide->desc}}" id="exampleInputPassword1"
+                                <textarea style="resize: none" rows="8" type="text" class="form-control" id="exampleInputPassword1"
                                     name="desc" placeholder="Mô tả danh mục "></textarea>
                             </div>
                             <div class="form-group">

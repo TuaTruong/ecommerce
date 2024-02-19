@@ -21,8 +21,4 @@ class HomeController extends Controller
             "all_product" =>$all_product
         ]);
     }
-
-    public function session(){
-        dd(session()->all());
-    }
 }

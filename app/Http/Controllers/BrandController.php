@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class BrandController extends Controller
 {
     public function add_brand(){
-        return view("admin.add_brand");
+        return view("admin.brand.add_brand");
     }
 
     public function save_brand(){
@@ -24,14 +24,14 @@ class BrandController extends Controller
     }
 
     public function all_brands(){
-        return view("admin.all_brands",[
+        return view("admin.brand.all_brands",[
             "all_brands"=> Brand::all()
         ]);
     }
 
     public function edit_brand($brand_id){
         $edit_brand = Brand::find($brand_id);
-        return view("admin.edit_brand",[
+        return view("admin.brand.edit_brand",[
             "edit_brand" => $edit_brand
         ]);
     }

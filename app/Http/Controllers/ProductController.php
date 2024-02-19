@@ -15,7 +15,7 @@ class ProductController extends Controller
         $all_categories = Category::all();
         $all_brands = Brand::all();
 
-        return view("admin.add_product",[
+        return view("admin.product.add_product",[
             "all_categories" => $all_categories,
             "all_brands" => $all_brands
         ]);
@@ -45,7 +45,7 @@ class ProductController extends Controller
 
 
     public function all_product(){
-        return view("admin.all_products",[
+        return view("admin.product.all_products",[
             "all_products" => Product::latest()->paginate(5)
         ]);
     }
@@ -58,7 +58,7 @@ class ProductController extends Controller
 
     public function edit_product($product_id){
         $edit_product = Product::find($product_id);
-        return view("admin.edit_product",[
+        return view("admin.product.edit_product",[
             "all_brands" => Brand::all(),
             "all_categories" => Category::all(),
             "edit_product" => $edit_product

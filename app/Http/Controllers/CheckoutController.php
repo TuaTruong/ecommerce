@@ -138,7 +138,7 @@ class CheckoutController extends Controller
 
     public function manage_order(){
         $all_orders = Order::latest()->get();
-        return view("admin.all_orders",[
+        return view("admin.order.all_orders",[
             "all_orders" => $all_orders
         ]);
     }
@@ -146,7 +146,7 @@ class CheckoutController extends Controller
     public function view_order($order_id){
 
         $current_order = Order::find($order_id);
-        return view("admin.view_order",[
+        return view("admin.order.view_order",[
             "current_order" => $current_order
         ]);
     }

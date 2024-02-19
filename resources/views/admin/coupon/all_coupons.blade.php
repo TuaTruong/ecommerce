@@ -23,7 +23,6 @@
                             </th>
                             <th>Tên mã giảm giá</th>
                             <th>Mã giảm giá</th>
-                            <th>Sỗ lượng mã giảm giá</th>
                             <th>Điều kiện giảm giá</th>
                             <th>Giảm</th>
                             <th style="width:30px;"></th>
@@ -32,27 +31,28 @@
                     <tbody>
                         @foreach ($all_coupons as $coupon)
                             <tr>
-                                <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label>
+                                <td><label class="i-checks m-b-none"><input type="checkbox"
+                                            name="post[]"><i></i></label>
                                 </td>
                                 <td>{{ $coupon->name }}</td>
                                 <td>{{ $coupon->code }}</td>
-                                <td>{{ $coupon->quantity }}</td>
                                 <td>
                                     @if ($coupon->condition)
-                                        Giảm theo số tiền
-                                    @else
                                         Giảm theo %
+                                    @else
+                                        Giảm theo số tiền
                                     @endif
                                 </td>
                                 <td>
                                     @if ($coupon->condition)
-                                        Giảm {{$coupon->discount}} VNĐ
+                                        Giảm {{ $coupon->discount }} %
                                     @else
-                                    Giảm {{$coupon->discount}} %
+                                        Giảm {{ number_format($coupon->discount,0,",",".") }} VNĐ
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="/delete-coupon/{{ $coupon->id }}" onclick="return confirm('Bạn có chắc là muốn xóa mã này không?')">
+                                    <a href="/delete-coupon/{{ $coupon->id }}"
+                                        onclick="return confirm('Bạn có chắc là muốn xóa mã này không?')">
                                         <i class="fa fa-times text-danger text"></i></a>
                                 </td>
                             </tr>

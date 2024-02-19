@@ -24,7 +24,7 @@ class ProductFactory extends Factory
             "name" => $this->faker->name(),
             "desc" => $this->faker->sentence(),
             "content" => $this->faker->sentence(),
-            "price" => $this->faker->randomNumber(5),
+            "price" => $this->faker->randomNumber(6),
             "status" => 1,
             "qty" => $this->faker->randomNumber(2),
             "sold_qty" => 0

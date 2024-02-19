@@ -190,7 +190,7 @@ class OrderController extends Controller
     public function manage_order()
     {
         $orders = Order::orderBy('created_at', 'DESC')->get();
-        return view('admin.all_orders', [
+        return view('admin.order.all_orders', [
             'orders' => $orders,
         ]);
     }
@@ -203,7 +203,7 @@ class OrderController extends Controller
         $shipping = $order->shipping;
         $coupon = Coupon::where('code', $order_details[0]->product_coupon)->first();
 
-        return view('admin.view_order', [
+        return view('admin.order.view_order', [
             'order_details' => $order_details,
             'order' => $order,
             'user' => $user,

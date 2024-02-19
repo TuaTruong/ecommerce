@@ -12,19 +12,19 @@ use Excel;
 class CategoryController extends Controller
 {
     public function add_category(){
-        return view("admin.add_category");
+        return view("admin.category.add_category");
     }
 
     public function all_category(){
         $all_categories = Category::all();
-        return view("admin.all_categories",[
+        return view("admin.category.all_categories",[
             "all_categories"=>$all_categories
         ]);
     }
 
     public function edit_category($category_id){
         $edit_category = Category::where("id",$category_id)->first();
-        return view("admin.edit_category",[
+        return view("admin.category.edit_category",[
             "edit_category"=>$edit_category
         ]);
     }

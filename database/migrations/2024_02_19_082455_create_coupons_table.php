@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer("condition");
             $table->string("code");
             $table->integer("discount");
-            $table->integer("quantity");
             $table->timestamps();
         });
     }
