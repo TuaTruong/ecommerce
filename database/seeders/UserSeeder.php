@@ -40,8 +40,8 @@ class UserSeeder extends Seeder
             "password" => "123456",
         ]);
 
-        $admin->roles()->attach($admin_role);
-        $author->roles()->attach($author_role);
-        $user->roles()->attach($user_role);
+        $user->assignRole('user');
+        $author->assignRole('author');
+        $admin->assignRole('admin');
     }
 }

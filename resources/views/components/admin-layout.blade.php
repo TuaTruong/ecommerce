@@ -84,17 +84,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Tổng quan</span>
                             </a>
                         </li>
-                        @hasrole("admin")
-                            <li class="sub-menu">
-                                <a href="javascript:;">
-                                    <i class="fa fa-book"></i>
-                                    <span>User</span>
-                                </a>
-                                <ul class="sub">
-                                    <li><a href="/all-users">Quản lý User</a></li>
-                                </ul>
-                            </li>
-                        @endhasrole
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>User</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="/all-users">Quản lý User</a></li>
+                            </ul>
+                        </li>
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>

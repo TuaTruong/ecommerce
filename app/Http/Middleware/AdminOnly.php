@@ -17,7 +17,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->user()?->hasAnyRoles(["admin","author"])){
+        if (!auth()->user()?->hasAnyRole(["admin","writer"])){
             return redirect("/");
         }
         return $next($request);
